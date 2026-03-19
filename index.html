@@ -605,10 +605,27 @@
               const material = row[2] || '';
               const width = row[3] || '';
               const weight = row[4] || '';
-              const priceFormatted = price ? Number(price).toLocaleString() : '-';
+              const priceNum = price ? Number(price) : 0;
+              const priceFormatted = priceNum ? priceNum.toLocaleString() : '-';
+              const hebeSmall = priceNum ? (Math.ceil(priceNum / (1.45 * 0.9144) / 100) * 100).toLocaleString() : '-';
+              const hebeLarge = priceNum ? (Math.ceil(priceNum / (2.9 * 0.9144) / 100) * 100).toLocaleString() : '-';
               const copyText = [
                 `제품명: ${name}`,
                 `단가: ${priceFormatted}원/Y`,
+                material ? `소재: ${material}` : '',
+                width ? `폭: ${width}` : '',
+                weight ? `무게: ${weight}gsm` : ''
+              ].filter(Boolean).join('\n');
+              const copyTextSmall = [
+                `제품명: ${name}`,
+                `헤베단가(소폭): ${hebeSmall}원/m²`,
+                material ? `소재: ${material}` : '',
+                width ? `폭: ${width}` : '',
+                weight ? `무게: ${weight}gsm` : ''
+              ].filter(Boolean).join('\n');
+              const copyTextLarge = [
+                `제품명: ${name}`,
+                `헤베단가(대폭): ${hebeLarge}원/m²`,
                 material ? `소재: ${material}` : '',
                 width ? `폭: ${width}` : '',
                 weight ? `무게: ${weight}gsm` : ''
@@ -618,10 +635,20 @@
               if (width) metaHtml += `<div class="meta-item"><div class="meta-label">폭</div><div class="meta-value">${width}</div></div>`;
               if (weight) metaHtml += `<div class="meta-item"><div class="meta-label">무게</div><div class="meta-value">${weight} gsm</div></div>`;
               const cardId = 'card_' + Math.random().toString(36).substr(2, 9);
+              const cardIdS = 'card_' + Math.random().toString(36).substr(2, 9);
+              const cardIdL = 'card_' + Math.random().toString(36).substr(2, 9);
               return divider + `<div class="card">
-                <button class="copy-btn" id="${cardId}" onclick="copyCard('${cardId}', \`${copyText.replace(/`/g, "'")}\`)">복사</button>
+                <div style="position:absolute;top:14px;right:14px;display:flex;gap:6px;">
+                  <button class="copy-btn" id="${cardId}" onclick="copyCard('${cardId}', \`${copyText.replace(/`/g, "'")}\`)">복사</button>
+                  <button class="copy-btn" id="${cardIdS}" onclick="copyCard('${cardIdS}', \`${copyTextSmall.replace(/`/g, "'")}\`)">헤베(소폭)</button>
+                  <button class="copy-btn" id="${cardIdL}" onclick="copyCard('${cardIdL}', \`${copyTextLarge.replace(/`/g, "'")}\`)">헤베(대폭)</button>
+                </div>
                 <div class="card-name">${name}</div>
                 <div class="card-price-row"><div class="card-price">${priceFormatted}</div><div class="card-price-unit">원 / Y</div><div style="font-size:10px;color:var(--ink4);letter-spacing:0.5px;margin-left:4px;">(부가세 별도)</div></div>
+                <div style="display:flex;gap:20px;margin-bottom:14px;padding-bottom:14px;border-bottom:1px solid var(--border);">
+                  <div><div style="font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--ink4);margin-bottom:3px;">헤베(소폭 1450)</div><div style="font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:500;color:var(--ink2);">${hebeSmall}<span style="font-size:10px;letter-spacing:1px;color:var(--ink3);margin-left:4px;">원/m²</span></div></div>
+                  <div><div style="font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--ink4);margin-bottom:3px;">헤베(대폭 2900)</div><div style="font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:500;color:var(--ink2);">${hebeLarge}<span style="font-size:10px;letter-spacing:1px;color:var(--ink3);margin-left:4px;">원/m²</span></div></div>
+                </div>
                 ${metaHtml ? `<div class="card-meta">${metaHtml}</div>` : ''}
               </div>`;
             }).join('');
