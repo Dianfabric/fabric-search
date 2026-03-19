@@ -265,6 +265,23 @@
     line-height: 1.9;
   }
 
+  @media (min-width: 768px) {
+    .header { padding: 0 48px; }
+    .header-brand { padding: 28px 0 20px; margin-bottom: 18px; }
+    .brand-name { font-size: 28px; letter-spacing: 6px; }
+    .brand-sub { font-size: 12px; letter-spacing: 3px; margin-top: 4px; }
+    .social-btn { width: 40px; height: 40px; border-radius: 8px; }
+    .social-btn svg { width: 18px; height: 18px; }
+    .search-area { padding-bottom: 20px; }
+    .search-textarea { font-size: 15px; padding: 14px 20px; min-height: 52px; }
+    .search-hint { font-size: 11px; margin-top: 10px; }
+    .welcome { padding: 100px 20px; }
+    .welcome-deco { font-size: 64px; margin-bottom: 28px; }
+    .welcome-title { font-size: 28px; margin-bottom: 14px; letter-spacing: 2px; }
+    .welcome-sub { font-size: 13px; }
+    .main { padding: 32px 48px; }
+  }
+
   .summary-bar {
     display: flex;
     align-items: center;
@@ -489,13 +506,21 @@
     <div class="welcome-sub">
       원단명을 입력해 단가를 조회하세요<br>
       여러 원단을 한 번에 검색할 수 있습니다<br><br>
-      <span style="font-size:11px; color:var(--ink4);">😊 오른쪽 상단 아이콘을 클릭하세요</span><br>
-      <div style="display:flex; justify-content:center; gap:20px; margin-top:14px; font-size:11px; color:var(--ink3);">
-        <span>🌐 디안 홈페이지</span>
-        <span>📷 디안 인스타그램</span>
-        <span>💬 디안 카카오톡 문의</span>
-        <span>📍 디안 쇼룸 예약</span>
-      </div>
+      <span style="font-size:11px; color:var(--ink4);">😊 오른쪽 상단 아이콘을 클릭하세요</span>
+    </div>
+    <div style="margin-top:28px; display:inline-flex; flex-direction:column; gap:10px; text-align:left;">
+      <a href="https://www.diantex.kr/" target="_blank" style="display:flex; align-items:center; gap:10px; text-decoration:none; color:var(--ink2); font-size:12px; letter-spacing:0.5px; transition:color 0.2s;">
+        <span style="font-size:14px;">🌐</span> 디안 홈페이지
+      </a>
+      <a href="https://www.instagram.com/diantextile/" target="_blank" style="display:flex; align-items:center; gap:10px; text-decoration:none; color:var(--ink2); font-size:12px; letter-spacing:0.5px; transition:color 0.2s;">
+        <span style="font-size:14px;">📷</span> 디안 인스타그램
+      </a>
+      <a href="http://pf.kakao.com/_xbSuYK" target="_blank" style="display:flex; align-items:center; gap:10px; text-decoration:none; color:var(--ink2); font-size:12px; letter-spacing:0.5px; transition:color 0.2s;">
+        <span style="font-size:14px;">💬</span> 디안 카카오톡 문의
+      </a>
+      <a href="https://map.naver.com/p/search/%EB%94%94%EC%95%88/place/13272942?c=15.00,0,0,0,dh&placePath=/ticket" target="_blank" style="display:flex; align-items:center; gap:10px; text-decoration:none; color:var(--ink2); font-size:12px; letter-spacing:0.5px; transition:color 0.2s;">
+        <span style="font-size:14px;">📍</span> 디안 쇼룸 예약
+      </a>
     </div>
   </div>
 
@@ -509,8 +534,8 @@
     <div class="empty-text">일치하는 원단이 없습니다</div>
     <div style="margin-top:6px; font-size:10px; letter-spacing:1px; color:var(--ink4);">제품명을 다시 확인해주세요</div>
     <div style="margin-top:40px;">
-      <a href="http://pf.kakao.com/_xbSuYK" target="_blank" style="display:inline-flex; align-items:center; gap:8px; background:#FEE500; color:#3C1E1E; text-decoration:none; padding:10px 20px; font-size:11px; letter-spacing:1.5px; font-family:'Noto Sans KR',sans-serif; transition:opacity 0.2s;">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="#3C1E1E"><path d="M12 3C6.477 3 2 6.477 2 10.5c0 2.611 1.564 4.906 3.926 6.265L4.5 21l4.688-2.344C10.076 18.88 11.02 19 12 19c5.523 0 10-3.477 10-7.5S17.523 3 12 3z"/></svg>
+      <a href="http://pf.kakao.com/_xbSuYK" target="_blank" style="display:inline-flex; align-items:center; gap:8px; background:#FEE500; color:#3C1E1E; text-decoration:none; padding:12px 28px; font-size:13px; letter-spacing:1px; font-family:'Noto Sans KR',sans-serif; transition:opacity 0.2s;">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="#3C1E1E"><path d="M12 3C6.477 3 2 6.477 2 10.5c0 2.611 1.564 4.906 3.926 6.265L4.5 21l4.688-2.344C10.076 18.88 11.02 19 12 19c5.523 0 10-3.477 10-7.5S17.523 3 12 3z"/></svg>
         디안 카카오톡 단가 문의하기
       </a>
     </div>
