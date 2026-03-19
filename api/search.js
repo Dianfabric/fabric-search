@@ -5,7 +5,7 @@ export default async function handler(req, res) {
   const { sheet } = req.query;
   const apiKey = process.env.GOOGLE_API_KEY;
   const sheetId = process.env.SHEET_ID;
-  const sheetName = sheet || 'Sheet1';
+  const sheetName = sheet || '쇼룸단가표';
  
   if (!apiKey || !sheetId) {
     return res.status(500).json({ error: '서버 설정 오류' });
