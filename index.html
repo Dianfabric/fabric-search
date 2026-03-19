@@ -6,7 +6,7 @@
 <title>Fabric Price</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500&family=Cormorant+Garamond:wght@300;400;500;600&family=DM+Mono:wght@300;400&display=swap');
- 
+
   :root {
     --bg: #faf9f7;
     --white: #ffffff;
@@ -20,9 +20,9 @@
     --gold: #c8a96e;
     --gold-light: #f7f0e6;
   }
- 
+
   * { box-sizing: border-box; margin: 0; padding: 0; }
- 
+
   body {
     background: var(--bg);
     color: var(--ink);
@@ -30,7 +30,7 @@
     min-height: 100vh;
     font-weight: 300;
   }
- 
+
   .header {
     background: var(--white);
     border-bottom: 1px solid var(--border);
@@ -39,7 +39,7 @@
     top: 0;
     z-index: 100;
   }
- 
+
   .header-brand {
     display: flex;
     align-items: center;
@@ -48,7 +48,7 @@
     border-bottom: 1px solid var(--border);
     margin-bottom: 12px;
   }
- 
+
   .brand-name {
     font-family: 'Cormorant Garamond', serif;
     font-size: 20px;
@@ -57,7 +57,7 @@
     text-transform: uppercase;
     color: var(--ink);
   }
- 
+
   .brand-sub {
     font-size: 10px;
     letter-spacing: 2px;
@@ -66,7 +66,7 @@
     font-weight: 300;
     margin-top: 2px;
   }
- 
+
   .status-dot {
     display: flex;
     align-items: center;
@@ -76,7 +76,7 @@
     text-transform: uppercase;
     color: var(--ink3);
   }
- 
+
   .dot {
     width: 6px;
     height: 6px;
@@ -84,18 +84,18 @@
     background: var(--border2);
     transition: background 0.3s;
   }
- 
+
   .dot.active { background: #7ab87a; }
- 
+
   .search-area { padding-bottom: 14px; }
- 
+
   .search-wrap {
     display: flex;
     align-items: flex-start;
     border: 1px solid var(--border2);
     background: var(--white);
   }
- 
+
   .search-textarea {
     flex: 1;
     background: transparent;
@@ -112,9 +112,9 @@
     max-height: 120px;
     overflow-y: auto;
   }
- 
+
   .search-textarea::placeholder { color: var(--ink4); font-size: 12px; }
- 
+
   .search-btn {
     background: var(--ink);
     border: none;
@@ -128,9 +128,9 @@
     flex-shrink: 0;
     transition: background 0.2s;
   }
- 
+
   .search-btn:active { background: var(--ink2); }
- 
+
   .search-btn svg {
     width: 14px;
     height: 14px;
@@ -139,7 +139,7 @@
     stroke-width: 1.5;
     stroke-linecap: round;
   }
- 
+
   .search-hint {
     font-size: 10px;
     letter-spacing: 0.5px;
@@ -147,13 +147,13 @@
     margin-top: 7px;
     text-align: right;
   }
- 
+
   .setup-panel {
     margin: 16px 24px 0;
     border: 1px solid var(--border);
     background: var(--white);
   }
- 
+
   .setup-header {
     padding: 13px 16px;
     display: flex;
@@ -162,32 +162,32 @@
     cursor: pointer;
     user-select: none;
   }
- 
+
   .setup-title {
     font-size: 10px;
     letter-spacing: 2px;
     text-transform: uppercase;
     color: var(--ink3);
   }
- 
+
   .setup-arrow {
     font-size: 10px;
     color: var(--ink4);
     transition: transform 0.2s;
   }
- 
+
   .setup-arrow.open { transform: rotate(180deg); }
- 
+
   .setup-body {
     display: none;
     padding: 0 16px 16px;
     border-top: 1px solid var(--border);
   }
- 
+
   .setup-body.open { display: block; }
- 
+
   .setup-field { margin-top: 14px; }
- 
+
   .setup-label {
     font-size: 10px;
     letter-spacing: 1.5px;
@@ -196,7 +196,7 @@
     margin-bottom: 6px;
     display: block;
   }
- 
+
   .setup-input {
     width: 100%;
     background: var(--bg);
@@ -209,9 +209,9 @@
     outline: none;
     transition: border-color 0.2s;
   }
- 
+
   .setup-input:focus { border-color: var(--ink2); }
- 
+
   .save-btn {
     margin-top: 16px;
     width: 100%;
@@ -227,11 +227,11 @@
     cursor: pointer;
     transition: background 0.2s;
   }
- 
+
   .save-btn:active { background: var(--ink2); }
- 
+
   .main { padding: 20px 24px; }
- 
+
   .error-msg {
     display: none;
     background: #fdf2f2;
@@ -241,12 +241,12 @@
     color: #a04040;
     margin-bottom: 14px;
   }
- 
+
   .error-msg.active { display: block; }
- 
+
   .loading { display: none; text-align: center; padding: 60px 20px; }
   .loading.active { display: block; }
- 
+
   .loading-line {
     width: 40px;
     height: 1px;
@@ -255,7 +255,7 @@
     position: relative;
     overflow: hidden;
   }
- 
+
   .loading-line::after {
     content: '';
     position: absolute;
@@ -266,24 +266,24 @@
     background: var(--ink);
     animation: slide 1s ease-in-out infinite;
   }
- 
+
   @keyframes slide { 0% { left: -100%; } 50% { left: 0%; } 100% { left: 100%; } }
- 
+
   .loading-text {
     font-size: 10px;
     letter-spacing: 3px;
     text-transform: uppercase;
     color: var(--ink3);
   }
- 
+
   .empty { display: none; text-align: center; padding: 60px 20px; }
   .empty.active { display: block; }
- 
+
   .empty-line { width: 24px; height: 1px; background: var(--border2); margin: 0 auto 16px; }
   .empty-text { font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: var(--ink3); }
- 
+
   .welcome { text-align: center; padding: 60px 20px; }
- 
+
   .welcome-deco {
     font-family: 'Cormorant Garamond', serif;
     font-size: 48px;
@@ -292,7 +292,7 @@
     line-height: 1;
     margin-bottom: 20px;
   }
- 
+
   .welcome-title {
     font-family: 'Cormorant Garamond', serif;
     font-size: 20px;
@@ -301,14 +301,14 @@
     margin-bottom: 10px;
     letter-spacing: 1px;
   }
- 
+
   .welcome-sub {
     font-size: 11px;
     letter-spacing: 0.5px;
     color: var(--ink3);
     line-height: 1.9;
   }
- 
+
   .summary-bar {
     display: flex;
     align-items: center;
@@ -317,16 +317,16 @@
     padding-bottom: 14px;
     border-bottom: 1px solid var(--border);
   }
- 
+
   .summary-text {
     font-size: 10px;
     letter-spacing: 2px;
     text-transform: uppercase;
     color: var(--ink3);
   }
- 
+
   .summary-text strong { color: var(--ink); font-weight: 400; }
- 
+
   .clear-btn {
     font-size: 10px;
     letter-spacing: 1.5px;
@@ -337,9 +337,9 @@
     cursor: pointer;
     padding: 4px 0;
   }
- 
+
   .results-section { margin-bottom: 28px; }
- 
+
   .section-keyword {
     font-size: 10px;
     letter-spacing: 2.5px;
@@ -352,13 +352,13 @@
     align-items: center;
     justify-content: space-between;
   }
- 
+
   .section-count {
     font-family: 'DM Mono', monospace;
     font-size: 10px;
     color: var(--ink4);
   }
- 
+
   .no-result-row {
     padding: 16px;
     text-align: center;
@@ -367,7 +367,7 @@
     color: var(--ink4);
     border: 1px dashed var(--border);
   }
- 
+
   .card {
     background: var(--white);
     border: 1px solid var(--border);
@@ -377,9 +377,9 @@
     transition: border-left-color 0.2s;
     position: relative;
   }
- 
+
   .card:active { border-left-color: var(--gold); }
- 
+
   .copy-btn {
     position: absolute;
     top: 14px;
@@ -395,10 +395,10 @@
     font-family: 'Noto Sans KR', sans-serif;
     transition: border-color 0.2s, color 0.2s;
   }
- 
+
   .copy-btn:hover { border-color: var(--ink3); color: var(--ink2); }
   .copy-btn.copied { border-color: #7ab87a; color: #7ab87a; }
- 
+
   .card-name {
     font-size: 14px;
     font-weight: 400;
@@ -407,7 +407,7 @@
     line-height: 1.5;
     letter-spacing: 0.3px;
   }
- 
+
   .card-price-row {
     display: flex;
     align-items: baseline;
@@ -416,7 +416,7 @@
     padding-bottom: 14px;
     border-bottom: 1px solid var(--border);
   }
- 
+
   .card-price {
     font-family: 'Cormorant Garamond', serif;
     font-size: 26px;
@@ -424,30 +424,30 @@
     color: var(--ink);
     letter-spacing: -0.5px;
   }
- 
+
   .card-price-unit {
     font-size: 10px;
     letter-spacing: 1.5px;
     text-transform: uppercase;
     color: var(--ink3);
   }
- 
+
   .card-meta {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 10px;
   }
- 
+
   .meta-item { display: flex; flex-direction: column; gap: 3px; }
   .meta-item.full { grid-column: 1 / -1; }
- 
+
   .meta-label {
     font-size: 9px;
     letter-spacing: 1.5px;
     text-transform: uppercase;
     color: var(--ink4);
   }
- 
+
   .meta-value {
     font-size: 12px;
     color: var(--ink2);
@@ -456,7 +456,7 @@
 </style>
 </head>
 <body>
- 
+
 <div class="header">
   <div class="header-brand">
     <div>
@@ -484,40 +484,27 @@
     <div class="search-hint">Enter — 검색 &nbsp;·&nbsp; 여러 개는 쉼표로 구분 (예: HALO-005, HALO-010)</div>
   </div>
 </div>
- 
-<div class="setup-panel">
-  <div class="setup-header" onclick="toggleSetup()">
-    <span class="setup-title">설정</span>
-    <span class="setup-arrow" id="setupArrow">▼</span>
-  </div>
-  <div class="setup-body" id="setupBody">
-    <div class="setup-field">
-      <label class="setup-label">시트 이름 (기본값: 쇼룸단가표)</label>
-      <input class="setup-input" id="sheetNameInput" type="text" placeholder="쇼룸단가표"/>
-    </div>
-    <button class="save-btn" onclick="saveConfig()">저장</button>
-  </div>
-</div>
- 
+
+
 <div class="main">
   <div class="error-msg" id="errorMsg"></div>
- 
+
   <div class="welcome" id="welcomeScreen">
     <div class="welcome-deco">✦</div>
     <div class="welcome-title">원단 단가 조회</div>
     <div class="welcome-sub">원단명을 입력해 단가를 조회하세요<br>여러 원단을 한 번에 검색할 수 있습니다</div>
   </div>
- 
+
   <div class="loading" id="loadingScreen">
     <div class="loading-line"></div>
     <div class="loading-text">조회 중</div>
   </div>
- 
+
   <div class="empty" id="emptyScreen">
     <div class="empty-line"></div>
     <div class="empty-text">결과 없음</div>
   </div>
- 
+
   <div id="resultsScreen" style="display:none">
     <div class="summary-bar">
       <div class="summary-text" id="summaryText"></div>
@@ -526,101 +513,75 @@
     <div id="resultsList"></div>
   </div>
 </div>
- 
+
 <script>
-  const CONFIG_KEY = 'fabric_search_config';
-  let config = { apiKey: '', sheetId: '', sheetName: 'Sheet1' };
+  const SHEET_NAME = '쇼룸단가표';
   let allData = [];
- 
-  function loadConfig() {
-    try {
-      const saved = localStorage.getItem(CONFIG_KEY);
-      if (saved) {
-        config = JSON.parse(saved);
-        document.getElementById('sheetNameInput').value = config.sheetName || '쇼룸단가표';
-      }
-      updateStatus(true);
-    } catch(e) {}
-  }
- 
-  function saveConfig() {
-    const sheetName = document.getElementById('sheetNameInput').value.trim() || '쇼룸단가표';
-    config = { sheetName };
-    localStorage.setItem(CONFIG_KEY, JSON.stringify(config));
-    allData = [];
-    updateStatus(true);
-    toggleSetup();
-    showError('');
-  }
- 
+
   function updateStatus(connected) {
     document.getElementById('statusDot').classList.toggle('active', connected);
     document.getElementById('statusText').textContent = connected ? '온라인' : '오프라인';
   }
- 
-  function toggleSetup() {
-    document.getElementById('setupBody').classList.toggle('open');
-    document.getElementById('setupArrow').classList.toggle('open');
-  }
- 
+
+  function toggleSetup() {}
+
   function showError(msg) {
     const el = document.getElementById('errorMsg');
     el.textContent = msg;
     el.classList.toggle('active', !!msg);
   }
- 
+
   function showScreen(name) {
     document.getElementById('welcomeScreen').style.display = name === 'welcome' ? 'block' : 'none';
     document.getElementById('loadingScreen').classList.toggle('active', name === 'loading');
     document.getElementById('emptyScreen').classList.toggle('active', name === 'empty');
     document.getElementById('resultsScreen').style.display = name === 'results' ? 'block' : 'none';
   }
- 
+
   function clearResults() {
     document.getElementById('searchInput').value = '';
     autoResize(document.getElementById('searchInput'));
     showScreen('welcome');
   }
- 
+
   function autoResize(el) {
     el.style.height = 'auto';
     el.style.height = Math.min(el.scrollHeight, 120) + 'px';
   }
- 
+
   async function fetchAllData() {
     if (allData.length > 0) return allData;
-    const sheetName = config.sheetName || 'Sheet1';
-    const res = await fetch(`/api/search?sheet=${encodeURIComponent(sheetName)}`);
+    const res = await fetch(`/api/search?sheet=${encodeURIComponent(SHEET_NAME)}`);
     const data = await res.json();
     if (data.error) throw new Error(data.error);
     allData = data.rows || [];
     return allData;
   }
- 
+
   async function doSearch() {
     const raw = document.getElementById('searchInput').value.trim();
     if (!raw) return;
- 
+
     const keywords = raw.split(',').map(k => k.trim()).filter(k => k.length > 0);
     showError('');
     showScreen('loading');
- 
+
     try {
       const rows = await fetchAllData();
       if (rows.length === 0) { showScreen('empty'); return; }
- 
+
       const sections = keywords.map(keyword => {
         const lower = keyword.toLowerCase();
         return { keyword, matched: rows.filter(row => (row[0] || '').toLowerCase().includes(lower)) };
       });
- 
+
       const totalFound = sections.reduce((sum, s) => sum + s.matched.length, 0);
       if (totalFound === 0) { showScreen('empty'); return; }
- 
+
       document.getElementById('summaryText').innerHTML = keywords.length === 1
         ? `<strong>${totalFound}</strong>건 조회됨`
         : `<strong>${keywords.length}</strong>개 검색어 &nbsp;·&nbsp; <strong>${totalFound}</strong>건 조회됨`;
- 
+
       document.getElementById('resultsList').innerHTML = sections.map(({ keyword, matched }) => {
         const cardsHtml = matched.length === 0
           ? `<div class="no-result-row">조회 결과 없음</div>`
@@ -650,17 +611,17 @@
                 ${metaHtml ? `<div class="card-meta">${metaHtml}</div>` : ''}
               </div>`;
             }).join('');
- 
+
         return `<div class="results-section"><div class="section-keyword"><span>${keyword}</span><span class="section-count">${matched.length}</span></div>${cardsHtml}</div>`;
       }).join('');
- 
+
       showScreen('results');
     } catch (err) {
       showScreen('welcome');
       showError(`오류: ${err.message}`);
     }
   }
- 
+
   function copyCard(id, text) {
     navigator.clipboard.writeText(text).then(() => {
       const btn = document.getElementById(id);
@@ -669,13 +630,12 @@
       setTimeout(() => { btn.textContent = '복사'; btn.classList.remove('copied'); }, 2000);
     });
   }
- 
+
   document.getElementById('searchInput').addEventListener('keydown', e => {
     if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); doSearch(); }
   });
- 
-  loadConfig();
+
+  updateStatus(true);
 </script>
 </body>
 </html>
- 
