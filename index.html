@@ -667,7 +667,13 @@
 
               // 폭 있는 경우: 복사 + 헤베 버튼 2개
               const btnsWithWidth = `
-                <button class="copy-btn" id="${cardId}" onclick="copyCard('${cardId}', \`${copyText.replace(/`/g, "'")}\`); document.getElementById('${priceId}').textContent='${priceFormatted}'; document.getElementById('${unitId}').textContent='원 / Y'; document.getElementById('${btnSmallId}').textContent='헤베';">복사</button>
+                <button class="copy-btn" id="${cardId}" onclick="
+                  var isHebe = document.getElementById('${btnSmallId}').textContent==='취소';
+                  copyCard('${cardId}', isHebe ? \`${copyTextAuto.replace(/`/g, "'")}\` : \`${copyText.replace(/`/g, "'")}\`);
+                  document.getElementById('${priceId}').textContent='${priceFormatted}';
+                  document.getElementById('${unitId}').textContent='원 / Y';
+                  document.getElementById('${btnSmallId}').textContent='헤베';
+                ">복사</button>
                 <button class="copy-btn" id="${btnSmallId}" onclick="
                   var el=document.getElementById('${btnSmallId}');
                   if(el.textContent==='취소'){
@@ -684,7 +690,16 @@
 
               // 폭 없는 경우: 복사 + 헤베(소폭) + 헤베(대폭) 3개
               const btnsNoWidth = `
-                <button class="copy-btn" id="${cardId}" onclick="copyCard('${cardId}', \`${copyText.replace(/`/g, "'")}\`); document.getElementById('${priceId}').textContent='${priceFormatted}'; document.getElementById('${unitId}').textContent='원 / Y'; document.getElementById('${btnSmallId}').textContent='헤베(소폭)'; document.getElementById('${btnLargeId}').textContent='헤베(대폭)';">복사</button>
+                <button class="copy-btn" id="${cardId}" onclick="
+                  var isSmall = document.getElementById('${btnSmallId}').textContent==='취소';
+                  var isLarge = document.getElementById('${btnLargeId}').textContent==='취소';
+                  var txt = isSmall ? \`${copyTextSmall.replace(/`/g, "'")}\` : isLarge ? \`${copyTextLarge.replace(/`/g, "'")}\` : \`${copyText.replace(/`/g, "'")}\`;
+                  copyCard('${cardId}', txt);
+                  document.getElementById('${priceId}').textContent='${priceFormatted}';
+                  document.getElementById('${unitId}').textContent='원 / Y';
+                  document.getElementById('${btnSmallId}').textContent='헤베(소폭)';
+                  document.getElementById('${btnLargeId}').textContent='헤베(대폭)';
+                ">복사</button>
                 <button class="copy-btn" id="${btnSmallId}" onclick="
                   var el=document.getElementById('${btnSmallId}');
                   if(el.textContent==='취소'){
