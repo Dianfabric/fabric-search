@@ -67,25 +67,63 @@
     margin-top: 2px;
   }
 
-  .status-dot {
+  .header-right {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .social-links {
     display: flex;
     align-items: center;
     gap: 6px;
-    font-size: 10px;
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
-    color: var(--ink3);
   }
 
-  .dot {
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: var(--border2);
-    transition: background 0.3s;
+  .social-btn {
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    background: var(--white);
+    transition: border-color 0.2s, background 0.2s;
+    position: relative;
   }
 
-  .dot.active { background: #7ab87a; }
+  .social-btn:hover {
+    border-color: var(--border2);
+    background: var(--bg);
+  }
+
+  .social-btn svg {
+    width: 15px;
+    height: 15px;
+    flex-shrink: 0;
+  }
+
+  .social-btn .tooltip {
+    position: absolute;
+    bottom: -30px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--ink);
+    color: var(--white);
+    font-size: 9px;
+    letter-spacing: 1px;
+    white-space: nowrap;
+    padding: 4px 8px;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.15s;
+    z-index: 200;
+  }
+
+  .social-btn:hover .tooltip { opacity: 1; }
+
+
 
   .search-area { padding-bottom: 14px; }
 
@@ -147,88 +185,6 @@
     margin-top: 7px;
     text-align: right;
   }
-
-  .setup-panel {
-    margin: 16px 24px 0;
-    border: 1px solid var(--border);
-    background: var(--white);
-  }
-
-  .setup-header {
-    padding: 13px 16px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    cursor: pointer;
-    user-select: none;
-  }
-
-  .setup-title {
-    font-size: 10px;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    color: var(--ink3);
-  }
-
-  .setup-arrow {
-    font-size: 10px;
-    color: var(--ink4);
-    transition: transform 0.2s;
-  }
-
-  .setup-arrow.open { transform: rotate(180deg); }
-
-  .setup-body {
-    display: none;
-    padding: 0 16px 16px;
-    border-top: 1px solid var(--border);
-  }
-
-  .setup-body.open { display: block; }
-
-  .setup-field { margin-top: 14px; }
-
-  .setup-label {
-    font-size: 10px;
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
-    color: var(--ink3);
-    margin-bottom: 6px;
-    display: block;
-  }
-
-  .setup-input {
-    width: 100%;
-    background: var(--bg);
-    border: 1px solid var(--border);
-    padding: 10px 12px;
-    font-size: 12px;
-    font-family: 'DM Mono', monospace;
-    font-weight: 300;
-    color: var(--ink);
-    outline: none;
-    transition: border-color 0.2s;
-  }
-
-  .setup-input:focus { border-color: var(--ink2); }
-
-  .save-btn {
-    margin-top: 16px;
-    width: 100%;
-    background: var(--ink);
-    color: var(--white);
-    border: none;
-    padding: 12px;
-    font-size: 10px;
-    font-weight: 400;
-    font-family: 'Noto Sans KR', sans-serif;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    cursor: pointer;
-    transition: background 0.2s;
-  }
-
-  .save-btn:active { background: var(--ink2); }
 
   .main { padding: 20px 24px; }
 
@@ -463,9 +419,49 @@
       <div class="brand-name">Dian Fabric Price Search</div>
       <div class="brand-sub">디안 원단 단가 조회</div>
     </div>
-    <div class="status-dot">
-      <div class="dot" id="statusDot"></div>
-      <span id="statusText">오프라인</span>
+    <div class="header-right">
+      <!-- 소셜 링크 아이콘 -->
+      <div class="social-links">
+
+        <!-- 홈페이지 -->
+        <a class="social-btn" href="https://www.diantex.kr/" target="_blank">
+          <svg viewBox="0 0 24 24" fill="none" stroke="var(--ink3)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="2" y1="12" x2="22" y2="12"/>
+            <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+          </svg>
+          <span class="tooltip">홈페이지</span>
+        </a>
+
+        <!-- 인스타그램 -->
+        <a class="social-btn" href="https://www.instagram.com/diantextile/" target="_blank">
+          <svg viewBox="0 0 24 24" fill="none" stroke="var(--ink3)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+            <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+            <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+          </svg>
+          <span class="tooltip">인스타그램</span>
+        </a>
+
+        <!-- 카카오톡 채널 -->
+        <a class="social-btn" href="http://pf.kakao.com/_xbSuYK" target="_blank">
+          <svg viewBox="0 0 24 24" fill="var(--ink3)">
+            <path d="M12 3C6.477 3 2 6.477 2 10.5c0 2.611 1.564 4.906 3.926 6.265L4.5 21l4.688-2.344C10.076 18.88 11.02 19 12 19c5.523 0 10-3.477 10-7.5S17.523 3 12 3z"/>
+          </svg>
+          <span class="tooltip">카카오 문의</span>
+        </a>
+
+        <!-- 쇼룸 예약 -->
+        <a class="social-btn" href="https://map.naver.com/p/search/%EB%94%94%EC%95%88/place/13272942?c=15.00,0,0,0,dh&placePath=/ticket" target="_blank">
+          <svg viewBox="0 0 24 24" fill="none" stroke="var(--ink3)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+            <circle cx="12" cy="10" r="3"/>
+          </svg>
+          <span class="tooltip">쇼룸 예약</span>
+        </a>
+
+      </div>
+
     </div>
   </div>
   <div class="search-area">
@@ -473,7 +469,7 @@
       <textarea
         class="search-textarea"
         id="searchInput"
-        placeholder="원단명 입력 — 여러 개는 쉼표로 구분 (예: HALO-005, HALO-010)"
+        placeholder="원단명 입력"
         rows="1"
         oninput="autoResize(this)"
       ></textarea>
@@ -518,12 +514,7 @@
   const SHEET_NAME = '쇼룸단가표';
   let allData = [];
 
-  function updateStatus(connected) {
-    document.getElementById('statusDot').classList.toggle('active', connected);
-    document.getElementById('statusText').textContent = connected ? '온라인' : '오프라인';
-  }
-
-  function toggleSetup() {}
+  function updateStatus(connected) {}
 
   function showError(msg) {
     const el = document.getElementById('errorMsg');
@@ -559,7 +550,6 @@
   }
 
   function extractFabricName(input) {
-    // -401, #401, 공백+숫자 등 컬러코드 제거 → 원단명만 추출
     return input.replace(/[\s\-#_]+\d+.*$/, '').trim();
   }
 
@@ -571,6 +561,7 @@
       const extracted = extractFabricName(k.trim());
       return extracted.length > 0 ? extracted : k.trim();
     }).filter(k => k.length > 0);
+
     showError('');
     showScreen('loading');
 
