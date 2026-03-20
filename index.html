@@ -443,11 +443,12 @@
 <div class="header">
   <div class="header-brand">
     <div>
-      <div class="brand-name">Dian Fabric Price Search</div>
-      <div class="brand-sub">디안 원단 단가 조회</div>
+      <a href="/" style="text-decoration:none;">
+        <div class="brand-name">Dian Fabric Price Search</div>
+        <div class="brand-sub">디안 원단 단가 조회</div>
+      </a>
     </div>
     <div class="header-right">
-      <!-- 소셜 링크 아이콘 -->
       <div class="social-links">
 
         <!-- 홈페이지 -->
@@ -487,8 +488,17 @@
           <span class="tooltip">쇼룸 예약</span>
         </a>
 
-      </div>
+        <!-- 노션 원단 갤러리 -->
+        <a class="social-btn" href="https://glitter-engine-eed.notion.site/DIAN-FABRIC-87096fc2181646479d29263332894d2b" target="_blank">
+          <svg viewBox="0 0 24 24" fill="none" stroke="var(--ink3)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="3" width="18" height="18" rx="2"/>
+            <line x1="3" y1="9" x2="21" y2="9"/>
+            <line x1="9" y1="21" x2="9" y2="9"/>
+          </svg>
+          <span class="tooltip">원단 갤러리</span>
+        </a>
 
+      </div>
     </div>
   </div>
   <div class="search-area">
@@ -516,8 +526,7 @@
     <div class="welcome-title">원단 단가 조회</div>
     <div class="welcome-sub">
       원단명을 입력해 단가를 조회하세요<br>
-      여러 원단을 한 번에 검색할 수 있습니다<br><br>
-      <span style="font-size:inherit;">😊 오른쪽 상단 아이콘을 클릭하세요</span>
+      여러 원단을 한 번에 검색할 수 있습니다
     </div>
     <div style="margin-top:32px; display:inline-flex; flex-direction:column; gap:16px; min-width:260px;">
       <a href="https://www.diantex.kr/" target="_blank" style="display:flex; align-items:center; gap:14px; text-decoration:none; color:var(--ink2); font-size:15px; letter-spacing:0.5px; padding:16px 24px; border:1px solid var(--border); background:var(--white); transition:border-color 0.2s;">
@@ -531,6 +540,9 @@
       </a>
       <a href="https://map.naver.com/p/search/%EB%94%94%EC%95%88/place/13272942?c=15.00,0,0,0,dh&placePath=/ticket" target="_blank" style="display:flex; align-items:center; gap:14px; text-decoration:none; color:var(--ink2); font-size:15px; letter-spacing:0.5px; padding:16px 24px; border:1px solid var(--border); background:var(--white); transition:border-color 0.2s;">
         <span style="font-size:18px;">📍</span> 디안 쇼룸 예약
+      </a>
+      <a href="https://glitter-engine-eed.notion.site/DIAN-FABRIC-87096fc2181646479d29263332894d2b" target="_blank" style="display:flex; align-items:center; gap:14px; text-decoration:none; color:var(--ink2); font-size:15px; letter-spacing:0.5px; padding:16px 24px; border:1px solid var(--border); background:var(--white); transition:border-color 0.2s;">
+        <span style="font-size:18px;">📋</span> 모바일 원단 갤러리
       </a>
     </div>
   </div>
@@ -684,34 +696,10 @@
               const btnSmallId = 'btns_' + Math.random().toString(36).substr(2, 9);
               const btnLargeId = 'btnl_' + Math.random().toString(36).substr(2, 9);
 
-              const copyText = [
-                `제품명: ${name}`,
-                `단가: ${priceFormatted}원/Y`,
-                material ? `소재: ${material}` : '',
-                width ? `폭: ${width}` : '',
-                weight ? `무게: ${weight}gsm` : ''
-              ].filter(Boolean).join('\n');
-              const copyTextAuto = [
-                `제품명: ${name}`,
-                `헤베단가: ${hebeAuto}원/m²`,
-                material ? `소재: ${material}` : '',
-                width ? `폭: ${width}` : '',
-                weight ? `무게: ${weight}gsm` : ''
-              ].filter(Boolean).join('\n');
-              const copyTextSmall = [
-                `제품명: ${name}`,
-                `헤베단가(소폭): ${hebeSmall}원/m²`,
-                material ? `소재: ${material}` : '',
-                width ? `폭: ${width}` : '',
-                weight ? `무게: ${weight}gsm` : ''
-              ].filter(Boolean).join('\n');
-              const copyTextLarge = [
-                `제품명: ${name}`,
-                `헤베단가(대폭): ${hebeLarge}원/m²`,
-                material ? `소재: ${material}` : '',
-                width ? `폭: ${width}` : '',
-                weight ? `무게: ${weight}gsm` : ''
-              ].filter(Boolean).join('\n');
+              const copyText = `${name} ${priceFormatted.replace(/,/g, ',')}/Y`;
+              const copyTextAuto = `${name} ${hebeAuto}/m2`;
+              const copyTextSmall = `${name} ${hebeSmall}/m2`;
+              const copyTextLarge = `${name} ${hebeLarge}/m2`;
 
               let metaHtml = '';
               if (material) metaHtml += `<div class="meta-item full"><div class="meta-label">소재</div><div class="meta-value">${material}</div></div>`;
@@ -722,7 +710,7 @@
               const btnsWithWidth = `
                 <button class="copy-btn" id="${cardId}" onclick="
                   var isHebe = document.getElementById('${btnSmallId}').textContent==='취소';
-                  copyCard('${cardId}', isHebe ? \`${copyTextAuto.replace(/`/g, "'")}\` : \`${copyText.replace(/`/g, "'")}\`);
+                  copyCard('${cardId}', isHebe ? '${copyTextAuto.replace(/'/g, "\\'")}' : '${copyText.replace(/'/g, "\\'")}');
                   document.getElementById('${priceId}').textContent='${priceFormatted}';
                   document.getElementById('${unitId}').textContent='원 / Y';
                   document.getElementById('${btnSmallId}').textContent='헤베';
@@ -734,7 +722,6 @@
                     document.getElementById('${unitId}').textContent='원 / Y';
                     el.textContent='헤베';
                   } else {
-                    copyText(\`${copyTextAuto.replace(/`/g, "'")}\`);
                     document.getElementById('${priceId}').textContent='${hebeAuto}';
                     document.getElementById('${unitId}').textContent='원 / m²';
                     el.textContent='취소';
@@ -746,7 +733,7 @@
                 <button class="copy-btn" id="${cardId}" onclick="
                   var isSmall = document.getElementById('${btnSmallId}').textContent==='취소';
                   var isLarge = document.getElementById('${btnLargeId}').textContent==='취소';
-                  var txt = isSmall ? \`${copyTextSmall.replace(/`/g, "'")}\` : isLarge ? \`${copyTextLarge.replace(/`/g, "'")}\` : \`${copyText.replace(/`/g, "'")}\`;
+                  var txt = isSmall ? '${copyTextSmall.replace(/'/g, "\\'")}' : isLarge ? '${copyTextLarge.replace(/'/g, "\\'")}' : '${copyText.replace(/'/g, "\\'")}';
                   copyCard('${cardId}', txt);
                   document.getElementById('${priceId}').textContent='${priceFormatted}';
                   document.getElementById('${unitId}').textContent='원 / Y';
@@ -761,7 +748,6 @@
                     el.textContent='헤베(소폭)';
                     document.getElementById('${btnLargeId}').textContent='헤베(대폭)';
                   } else {
-                    copyText(\`${copyTextSmall.replace(/`/g, "'")}\`);
                     document.getElementById('${priceId}').textContent='${hebeSmall}';
                     document.getElementById('${unitId}').textContent='원 / m²';
                     el.textContent='취소';
@@ -776,7 +762,6 @@
                     el.textContent='헤베(대폭)';
                     document.getElementById('${btnSmallId}').textContent='헤베(소폭)';
                   } else {
-                    copyText(\`${copyTextLarge.replace(/`/g, "'")}\`);
                     document.getElementById('${priceId}').textContent='${hebeLarge}';
                     document.getElementById('${unitId}').textContent='원 / m²';
                     el.textContent='취소';
