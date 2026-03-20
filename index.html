@@ -640,7 +640,8 @@
         return extracted.length > 0 ? extracted : k;
       });
 
-      const sections = keywords.map(keyword => {
+      const sections = keywords.map((keyword, i) => {
+        const rawKeyword = rawKeywords[i];
         const lower = keyword.toLowerCase();
         const exact = rows.filter(row => {
           const nameA = (row[0] || '').toLowerCase();
@@ -654,7 +655,7 @@
           const nameF = (row[5] || '').toLowerCase();
           return nameA.includes(lower) || nameF.includes(lower);
         }).slice(0, 5);
-        return { keyword, matched: [...exact, ...partial], exactCount: exact.length };
+        return { keyword, rawKeyword, matched: [...exact, ...partial], exactCount: exact.length };
       });
 
       const totalFound = sections.reduce((sum, s) => sum + s.matched.length, 0);
@@ -664,7 +665,7 @@
         ? `<strong>${totalFound}</strong>건 조회됨`
         : `<strong>${keywords.length}</strong>개 검색어 &nbsp;·&nbsp; <strong>${totalFound}</strong>건 조회됨`;
 
-      document.getElementById('resultsList').innerHTML = sections.map(({ keyword, matched, exactCount }) => {
+      document.getElementById('resultsList').innerHTML = sections.map(({ keyword, rawKeyword, matched, exactCount }) => {
         const cardsHtml = matched.length === 0
           ? `<div class="no-result-row">조회 결과 없음</div>`
           : matched.map((row, idx) => {
@@ -672,6 +673,12 @@
                 ? `<div style="font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--ink4);margin:14px 0 10px;padding-bottom:8px;border-bottom:1px dashed var(--border);">유사 결과</div>`
                 : '';
               const name = row[0] || '-';
+              const nameF = row[5] || '';
+              const rawLower = rawKeyword.toLowerCase();
+              const nameLower = name.toLowerCase();
+              const nameFLower = nameF.toLowerCase();
+              // rawKeyword가 A열 또는 F열을 포함하면 rawKeyword 사용, 아니면 카드명 사용
+              const copyName = (rawLower.includes(nameLower) || (nameFLower && rawLower.includes(nameFLower))) ? rawKeyword : name;
               const price = row[1] || '';
               const material = row[2] || '';
               const width = row[3] || '';
@@ -696,10 +703,10 @@
               const btnSmallId = 'btns_' + Math.random().toString(36).substr(2, 9);
               const btnLargeId = 'btnl_' + Math.random().toString(36).substr(2, 9);
 
-              const copyText = `${name} ${priceFormatted.replace(/,/g, ',')}/Y`;
-              const copyTextAuto = `${name} ${hebeAuto}/m2`;
-              const copyTextSmall = `${name} ${hebeSmall}/m2`;
-              const copyTextLarge = `${name} ${hebeLarge}/m2`;
+              const copyText = `${copyName} ${priceFormatted}/Y`;
+              const copyTextAuto = `${copyName} ${hebeAuto}/m2`;
+              const copyTextSmall = `${copyName} ${hebeSmall}/m2`;
+              const copyTextLarge = `${copyName} ${hebeLarge}/m2`;
 
               let metaHtml = '';
               if (material) metaHtml += `<div class="meta-item full"><div class="meta-label">소재</div><div class="meta-value">${material}</div></div>`;
