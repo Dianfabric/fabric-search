@@ -697,6 +697,7 @@
               const hebeAuto = (priceNum && widthM) ? (Math.ceil(priceNum / (widthM * 0.9144) / 1000) * 1000).toLocaleString() : '-';
               const hebeSmall = priceNum ? (Math.ceil(priceNum / (1.4 * 0.9144) / 1000) * 1000).toLocaleString() : '-';
               const hebeLarge = priceNum ? (Math.ceil(priceNum / (2.8 * 0.9144) / 1000) * 1000).toLocaleString() : '-';
+              const meterPrice = priceNum ? (Math.ceil(priceNum / 0.9144 / 1000) * 1000).toLocaleString() : '-';
 
               const hasWidth = widthNum > 0;
 
@@ -705,26 +706,30 @@
               const unitId = 'unit_' + Math.random().toString(36).substr(2, 9);
               const btnSmallId = 'btns_' + Math.random().toString(36).substr(2, 9);
               const btnLargeId = 'btnl_' + Math.random().toString(36).substr(2, 9);
+              const btnMeterId = 'btnm_' + Math.random().toString(36).substr(2, 9);
 
               const copyText = `${copyName} ${priceFormatted}/Y`;
               const copyTextAuto = `${copyName} ${hebeAuto}/m2`;
               const copyTextSmall = `${copyName} ${hebeSmall}/m2`;
               const copyTextLarge = `${copyName} ${hebeLarge}/m2`;
+              const copyTextMeter = `${copyName} ${meterPrice}/m`;
 
               let metaHtml = '';
               if (material) metaHtml += `<div class="meta-item full"><div class="meta-label">소재</div><div class="meta-value">${material}</div></div>`;
               if (width) metaHtml += `<div class="meta-item"><div class="meta-label">폭</div><div class="meta-value">${width}</div></div>`;
               if (weight) metaHtml += `<div class="meta-item"><div class="meta-label">무게</div><div class="meta-value">${weight} gsm</div></div>`;
 
-              // 폭 있는 경우: 복사 + 헤베 버튼 2개
+              // 폭 있는 경우: 복사 + 헤베 + 미터 버튼
               const btnsWithWidth = `
                 <button class="copy-btn" id="${cardId}" onclick="
                   var isHebe = document.getElementById('${btnSmallId}').textContent==='취소';
-                  var txt = isHebe ? '${copyTextAuto.replace(/'/g, "\\'")}' : '${copyText.replace(/'/g, "\\'")}';
+                  var isMeter = document.getElementById('${btnMeterId}').textContent==='취소';
+                  var txt = isMeter ? '${copyTextMeter.replace(/'/g, "\\'")}' : isHebe ? '${copyTextAuto.replace(/'/g, "\\'")}' : '${copyText.replace(/'/g, "\\'")}';
                   copyCard('${cardId}', txt);
                   document.getElementById('${priceId}').textContent='${priceFormatted}';
                   document.getElementById('${unitId}').textContent='원 / Y';
                   document.getElementById('${btnSmallId}').textContent='헤베';
+                  document.getElementById('${btnMeterId}').textContent='미터';
                   this.closest('.card').dataset.copytext='${copyText.replace(/'/g, "\\'")}';
                 ">복사</button>
                 <button class="copy-btn" id="${btnSmallId}" onclick="
@@ -733,26 +738,46 @@
                     document.getElementById('${priceId}').textContent='${priceFormatted}';
                     document.getElementById('${unitId}').textContent='원 / Y';
                     el.textContent='헤베';
+                    document.getElementById('${btnMeterId}').textContent='미터';
                     this.closest('.card').dataset.copytext='${copyText.replace(/'/g, "\\'")}';
                   } else {
                     document.getElementById('${priceId}').textContent='${hebeAuto}';
                     document.getElementById('${unitId}').textContent='원 / m²';
                     el.textContent='취소';
+                    document.getElementById('${btnMeterId}').textContent='미터';
                     this.closest('.card').dataset.copytext='${copyTextAuto.replace(/'/g, "\\'")}';
                   }
-                ">헤베</button>`;
+                ">헤베</button>
+                <button class="copy-btn" id="${btnMeterId}" onclick="
+                  var el=document.getElementById('${btnMeterId}');
+                  if(el.textContent==='취소'){
+                    document.getElementById('${priceId}').textContent='${priceFormatted}';
+                    document.getElementById('${unitId}').textContent='원 / Y';
+                    el.textContent='미터';
+                    document.getElementById('${btnSmallId}').textContent='헤베';
+                    this.closest('.card').dataset.copytext='${copyText.replace(/'/g, "\\'")}';
+                  } else {
+                    document.getElementById('${priceId}').textContent='${meterPrice}';
+                    document.getElementById('${unitId}').textContent='원 / m';
+                    el.textContent='취소';
+                    document.getElementById('${btnSmallId}').textContent='헤베';
+                    this.closest('.card').dataset.copytext='${copyTextMeter.replace(/'/g, "\\'")}';
+                  }
+                ">미터</button>`;
 
-              // 폭 없는 경우: 복사 + 헤베(소폭) + 헤베(대폭) 3개
+              // 폭 없는 경우: 복사 + 헤베(소폭) + 헤베(대폭) + 미터
               const btnsNoWidth = `
                 <button class="copy-btn" id="${cardId}" onclick="
                   var isSmall = document.getElementById('${btnSmallId}').textContent==='취소';
                   var isLarge = document.getElementById('${btnLargeId}').textContent==='취소';
-                  var txt = isSmall ? '${copyTextSmall.replace(/'/g, "\\'")}' : isLarge ? '${copyTextLarge.replace(/'/g, "\\'")}' : '${copyText.replace(/'/g, "\\'")}';
+                  var isMeter = document.getElementById('${btnMeterId}').textContent==='취소';
+                  var txt = isMeter ? '${copyTextMeter.replace(/'/g, "\\'")}' : isSmall ? '${copyTextSmall.replace(/'/g, "\\'")}' : isLarge ? '${copyTextLarge.replace(/'/g, "\\'")}' : '${copyText.replace(/'/g, "\\'")}';
                   copyCard('${cardId}', txt);
                   document.getElementById('${priceId}').textContent='${priceFormatted}';
                   document.getElementById('${unitId}').textContent='원 / Y';
                   document.getElementById('${btnSmallId}').textContent='헤베(소폭)';
                   document.getElementById('${btnLargeId}').textContent='헤베(대폭)';
+                  document.getElementById('${btnMeterId}').textContent='미터';
                   this.closest('.card').dataset.copytext='${copyText.replace(/'/g, "\\'")}';
                 ">복사</button>
                 <button class="copy-btn" id="${btnSmallId}" onclick="
@@ -762,12 +787,14 @@
                     document.getElementById('${unitId}').textContent='원 / Y';
                     el.textContent='헤베(소폭)';
                     document.getElementById('${btnLargeId}').textContent='헤베(대폭)';
+                    document.getElementById('${btnMeterId}').textContent='미터';
                     this.closest('.card').dataset.copytext='${copyText.replace(/'/g, "\\'")}';
                   } else {
                     document.getElementById('${priceId}').textContent='${hebeSmall}';
                     document.getElementById('${unitId}').textContent='원 / m²';
                     el.textContent='취소';
                     document.getElementById('${btnLargeId}').textContent='헤베(대폭)';
+                    document.getElementById('${btnMeterId}').textContent='미터';
                     this.closest('.card').dataset.copytext='${copyTextSmall.replace(/'/g, "\\'")}';
                   }
                 ">헤베(소폭)</button>
@@ -778,15 +805,35 @@
                     document.getElementById('${unitId}').textContent='원 / Y';
                     el.textContent='헤베(대폭)';
                     document.getElementById('${btnSmallId}').textContent='헤베(소폭)';
+                    document.getElementById('${btnMeterId}').textContent='미터';
                     this.closest('.card').dataset.copytext='${copyText.replace(/'/g, "\\'")}';
                   } else {
                     document.getElementById('${priceId}').textContent='${hebeLarge}';
                     document.getElementById('${unitId}').textContent='원 / m²';
                     el.textContent='취소';
                     document.getElementById('${btnSmallId}').textContent='헤베(소폭)';
+                    document.getElementById('${btnMeterId}').textContent='미터';
                     this.closest('.card').dataset.copytext='${copyTextLarge.replace(/'/g, "\\'")}';
                   }
-                ">헤베(대폭)</button>`;
+                ">헤베(대폭)</button>
+                <button class="copy-btn" id="${btnMeterId}" onclick="
+                  var el=document.getElementById('${btnMeterId}');
+                  if(el.textContent==='취소'){
+                    document.getElementById('${priceId}').textContent='${priceFormatted}';
+                    document.getElementById('${unitId}').textContent='원 / Y';
+                    el.textContent='미터';
+                    document.getElementById('${btnSmallId}').textContent='헤베(소폭)';
+                    document.getElementById('${btnLargeId}').textContent='헤베(대폭)';
+                    this.closest('.card').dataset.copytext='${copyText.replace(/'/g, "\\'")}';
+                  } else {
+                    document.getElementById('${priceId}').textContent='${meterPrice}';
+                    document.getElementById('${unitId}').textContent='원 / m';
+                    el.textContent='취소';
+                    document.getElementById('${btnSmallId}').textContent='헤베(소폭)';
+                    document.getElementById('${btnLargeId}').textContent='헤베(대폭)';
+                    this.closest('.card').dataset.copytext='${copyTextMeter.replace(/'/g, "\\'")}';
+                  }
+                ">미터</button>`;
 
               return divider + `<div class="card" data-copyid="${cardId}" data-copytext="${copyText.replace(/"/g, '&quot;')}" style="display:flex;gap:16px;align-items:stretch;">
                 <div style="flex:1;min-width:0;">
