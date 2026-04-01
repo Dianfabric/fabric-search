@@ -379,8 +379,22 @@
     white-space: nowrap;
   }
 
-  .copy-btn:hover { border-color: var(--ink3); color: var(--ink2); }
-  .copy-btn.copied { border-color: #7ab87a; color: #7ab87a; }
+  .card-checked {
+    background: var(--ink) !important;
+    border-color: var(--ink) !important;
+  }
+  .card-checked::after {
+    content: '';
+    width: 8px;
+    height: 5px;
+    border-left: 2px solid #fff;
+    border-bottom: 2px solid #fff;
+    transform: rotate(-45deg) translateY(-1px);
+    display: block;
+  }
+  .card.selected {
+    border-left: 2px solid var(--gold) !important;
+  }
 
   .card-name {
     font-size: 16px;
@@ -569,6 +583,7 @@
       <div class="summary-text" id="summaryText"></div>
       <div style="display:flex;gap:10px;align-items:center;">
         <button class="copy-btn" id="copyAllBtn" onclick="copyAll()">전체복사</button>
+        <button class="copy-btn" id="copySelBtn" onclick="copySelected()">선택복사</button>
         <button class="clear-btn" onclick="clearResults()">초기화</button>
       </div>
     </div>
@@ -714,6 +729,8 @@
               const copyTextLarge = `${copyName} ${hebeLarge}/m2`;
               const copyTextMeter = `${copyName} ${meterPrice}/m`;
 
+              const brand = row[6] || '';
+
               let metaHtml = '';
               if (material) metaHtml += `<div class="meta-item full"><div class="meta-label">소재</div><div class="meta-value">${material}</div></div>`;
               if (width) metaHtml += `<div class="meta-item"><div class="meta-label">폭</div><div class="meta-value">${width}</div></div>`;
@@ -835,7 +852,12 @@
                   }
                 ">미터</button>`;
 
-              return divider + `<div class="card" data-copyid="${cardId}" data-copytext="${copyText.replace(/"/g, '&quot;')}" style="display:flex;gap:16px;align-items:stretch;">
+              const checkId = 'chk_' + Math.random().toString(36).substr(2, 9);
+
+              return divider + `<div class="card" data-copyid="${cardId}" data-copytext="${copyText.replace(/"/g, '&quot;')}" style="display:flex;gap:14px;align-items:stretch;">
+                <div style="display:flex;flex-direction:column;align-items:center;padding-top:2px;">
+                  <div id="${checkId}" onclick="this.classList.toggle('card-checked'); this.closest('.card').classList.toggle('selected');" style="width:16px;height:16px;border:1.5px solid var(--border2);border-radius:3px;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;"></div>
+                </div>
                 <div style="flex:1;min-width:0;">
                   <div class="card-name">${name}</div>
                   <div class="card-price-row">
@@ -845,8 +867,9 @@
                   </div>
                   ${metaHtml ? `<div class="card-meta">${metaHtml}</div>` : ''}
                 </div>
-                <div style="display:flex;flex-direction:column;gap:6px;flex-shrink:0;padding-top:2px;">
+                <div style="display:flex;flex-direction:column;gap:6px;flex-shrink:0;padding-top:2px;align-items:flex-end;">
                   ${hasWidth ? btnsWithWidth : btnsNoWidth}
+                  ${brand ? `<div style="font-size:11px;color:var(--ink4);letter-spacing:0.5px;margin-top:2px;">${brand}</div>` : ''}
                 </div>
               </div>`;
             }).join('');
@@ -860,6 +883,24 @@
       showScreen('welcome');
       showError(`오류: ${err.message}`);
     }
+  }
+
+  function copySelected() {
+    const cards = document.querySelectorAll('.card.selected[data-copytext]');
+    if (cards.length === 0) {
+      const btn = document.getElementById('copySelBtn');
+      btn.textContent = '선택없음';
+      setTimeout(() => { btn.textContent = '선택복사'; }, 1500);
+      return;
+    }
+    const lines = Array.from(cards).map(c => c.dataset.copytext).filter(Boolean);
+    const text = lines.join('\n');
+    navigator.clipboard.writeText(text).then(() => {
+      const btn = document.getElementById('copySelBtn');
+      btn.textContent = '완료';
+      btn.classList.add('copied');
+      setTimeout(() => { btn.textContent = '선택복사'; btn.classList.remove('copied'); }, 2000);
+    });
   }
 
   function copyAll() {
