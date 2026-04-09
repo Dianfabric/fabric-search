@@ -25,11 +25,15 @@ export default async function handler(req, res) {
 
     let rows = (data.values || []).slice(1);
 
+    // debug: H열 데이터 존재 여부 확인
+    const maxCols = rows.reduce((max, row) => Math.max(max, row.length), 0);
+    const rowsWithH = rows.filter(row => row.length >= 8 && row[7]).length;
+
     if (!isAdmin) {
       rows = rows.map(row => row.slice(0, 7));
     }
 
-    return res.status(200).json({ rows });
+    return res.status(200).json({ rows, _debug: { maxCols, rowsWithH, totalRows: rows.length } });
   } catch (err) {
     return res.status(500).json({ error: err.message });
   }
