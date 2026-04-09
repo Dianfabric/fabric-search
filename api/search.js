@@ -33,7 +33,7 @@ export default async function handler(req, res) {
       rows = rows.map(row => row.slice(0, 7));
     }
 
-    return res.status(200).json({ rows, _debug: { maxCols, rowsWithH, totalRows: rows.length } });
+    return res.status(200).json({ rows, _debug: { maxCols, rowsWithH, totalRows: rows.length, isAdmin, adminReceived: !!admin, adminLen: admin ? admin.length : 0, expectedLen: process.env.ADMIN_PASSWORD ? process.env.ADMIN_PASSWORD.length : 0 } });
   } catch (err) {
     return res.status(500).json({ error: err.message });
   }
