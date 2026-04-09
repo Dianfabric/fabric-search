@@ -618,11 +618,14 @@
   let allData = [];
 
   let isAdmin = false;
+  let adminPw = '';
 
   function toggleAdminLogin() {
     if (isAdmin) {
       isAdmin = false;
-      document.querySelectorAll('.dealer-price-row').forEach(el => el.style.display = 'none');
+      adminPw = '';
+      allData = [];
+      document.querySelectorAll('.dealer-price-row').forEach(el => el.remove());
       document.getElementById('lockIcon').style.stroke = 'var(--ink3)';
       document.getElementById('adminTooltip').textContent = '관리자 로그인';
     } else {
@@ -643,6 +646,8 @@
     const data = await res.json();
     if (data.ok) {
       isAdmin = true;
+      adminPw = pw;
+      allData = [];
       closeAdminModal();
       document.querySelectorAll('.dealer-price-row').forEach(el => el.style.display = 'block');
       document.getElementById('lockIcon').setAttribute('stroke', '#7ab87a');
@@ -680,7 +685,9 @@
 
   async function fetchAllData() {
     if (allData.length > 0) return allData;
-    const res = await fetch(`/api/search?sheet=${encodeURIComponent(SHEET_NAME)}`);
+    const params = new URLSearchParams({ sheet: SHEET_NAME });
+    if (isAdmin && adminPw) params.set('admin', adminPw);
+    const res = await fetch(`/api/search?${params}`);
     const data = await res.json();
     if (data.error) throw new Error(data.error);
     allData = data.rows || [];
@@ -926,7 +933,7 @@
                     <div style="font-size:10px;color:var(--ink4);letter-spacing:0.5px;margin-left:4px;">(부가세 별도)</div>
                   </div>
                   ${metaHtml ? `<div class="card-meta">${metaHtml}</div>` : ''}
-                  ${dealerPriceFormatted ? `<div class="dealer-price-row" style="display:none;margin-top:10px;padding-top:10px;border-top:1px dashed var(--border);"><div style="font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--ink4);margin-bottom:2px;">대리점가</div><div style="font-size:14px;color:var(--ink2);font-weight:400;">${dealerPriceFormatted} 원/Y</div></div>` : ''}
+                  ${dealerPriceFormatted ? `<div class="dealer-price-row" style="display:${isAdmin ? 'block' : 'none'};margin-top:10px;padding-top:10px;border-top:1px dashed var(--border);"><div style="font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--ink4);margin-bottom:2px;">대리점가</div><div style="font-size:14px;color:var(--ink2);font-weight:400;">${dealerPriceFormatted} 원/Y</div></div>` : ''}
                 </div>
                 <div style="display:flex;flex-direction:column;gap:6px;flex-shrink:0;padding-top:2px;align-items:flex-end;">
                   ${hasWidth ? btnsWithWidth : btnsNoWidth}
