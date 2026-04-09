@@ -649,9 +649,13 @@
       adminPw = pw;
       allData = [];
       closeAdminModal();
-      document.querySelectorAll('.dealer-price-row').forEach(el => el.style.display = 'block');
       document.getElementById('lockIcon').setAttribute('stroke', '#7ab87a');
       document.getElementById('adminTooltip').textContent = '관리자 모드 (클릭시 로그아웃)';
+      // 로그인 후 현재 검색어가 있으면 자동 재검색 (대리점가 포함 데이터 로드)
+      const currentQuery = document.getElementById('searchInput').value.trim();
+      if (currentQuery) {
+        doSearch();
+      }
     } else {
       document.getElementById('adminError').style.display = 'block';
     }
@@ -698,6 +702,13 @@
     const data = await res.json();
     if (data.error) throw new Error(data.error);
     allData = data.rows || [];
+    // 임시 디버그: 컬럼 수 확인 (나중에 제거)
+    if (allData.length > 0) {
+      const cols = allData[0].length;
+      const hasH = allData.filter(r => r.length >= 8 && r[7]).length;
+      console.log('[DEBUG] isAdmin:', isAdmin, '| cols:', cols, '| rowsWithH:', hasH, '| _d:', data._d);
+      alert('[디버그] isAdmin: ' + isAdmin + ' | 컬럼수: ' + cols + ' | H열 데이터: ' + hasH + '개\n\n' + JSON.stringify(data._d));
+    }
     return allData;
   }
 
