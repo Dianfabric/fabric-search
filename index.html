@@ -685,9 +685,16 @@
 
   async function fetchAllData() {
     if (allData.length > 0) return allData;
-    const params = new URLSearchParams({ sheet: SHEET_NAME });
-    if (isAdmin && adminPw) params.set('admin', adminPw);
-    const res = await fetch(`/api/search?${params}`);
+    let res;
+    if (isAdmin && adminPw) {
+      res = await fetch('/api/search', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ sheet: SHEET_NAME, admin: adminPw })
+      });
+    } else {
+      res = await fetch(`/api/search?sheet=${encodeURIComponent(SHEET_NAME)}`);
+    }
     const data = await res.json();
     if (data.error) throw new Error(data.error);
     allData = data.rows || [];

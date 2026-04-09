@@ -1,8 +1,13 @@
 export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'GET');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
-  const { sheet, admin } = req.query;
+  if (req.method === 'OPTIONS') return res.status(200).end();
+
+  const sheet = req.query.sheet || (req.body && req.body.sheet);
+  const admin = req.query.admin || (req.body && req.body.admin);
+
   const apiKey = process.env.GOOGLE_API_KEY;
   const sheetId = process.env.SHEET_ID;
   const sheetName = sheet || '쇼룸단가표';
@@ -25,15 +30,11 @@ export default async function handler(req, res) {
 
     let rows = (data.values || []).slice(1);
 
-    // debug: H열 데이터 존재 여부 확인
-    const maxCols = rows.reduce((max, row) => Math.max(max, row.length), 0);
-    const rowsWithH = rows.filter(row => row.length >= 8 && row[7]).length;
-
     if (!isAdmin) {
       rows = rows.map(row => row.slice(0, 7));
     }
 
-    return res.status(200).json({ rows, _debug: { maxCols, rowsWithH, totalRows: rows.length, isAdmin, adminReceived: !!admin, adminLen: admin ? admin.length : 0, expectedLen: process.env.ADMIN_PASSWORD ? process.env.ADMIN_PASSWORD.length : 0 } });
+    return res.status(200).json({ rows });
   } catch (err) {
     return res.status(500).json({ error: err.message });
   }
