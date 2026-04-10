@@ -800,6 +800,7 @@
               const cardId = 'card_' + Math.random().toString(36).substr(2, 9);
               const priceId = 'price_' + Math.random().toString(36).substr(2, 9);
               const unitId = 'unit_' + Math.random().toString(36).substr(2, 9);
+              const dealerDispId = 'dp_' + Math.random().toString(36).substr(2, 9);
               const btnSmallId = 'btns_' + Math.random().toString(36).substr(2, 9);
               const btnLargeId = 'btnl_' + Math.random().toString(36).substr(2, 9);
               const btnMeterId = 'btnm_' + Math.random().toString(36).substr(2, 9);
@@ -846,6 +847,7 @@
                   document.getElementById('${btnMeterId}').textContent='미터';
                   this.closest('.card').dataset.copytext='${copyText.replace(/'/g, "\\'")}';
                   this.closest('.card').dataset.dealercopytext='${dYard.replace(/'/g, "\\'")}';
+                  var dp=document.getElementById('${dealerDispId}');if(dp)dp.textContent='${dealerFormatted} 원/Y';
                 ">복사</button>
                 <button class="copy-btn" id="${btnSmallId}" onclick="
                   var el=document.getElementById('${btnSmallId}');
@@ -856,6 +858,7 @@
                     document.getElementById('${btnMeterId}').textContent='미터';
                     this.closest('.card').dataset.copytext='${copyText.replace(/'/g, "\\'")}';
                     this.closest('.card').dataset.dealercopytext='${dYard.replace(/'/g, "\\'")}';
+                    var dp=document.getElementById('${dealerDispId}');if(dp)dp.textContent='${dealerFormatted} 원/Y';
                   } else {
                     document.getElementById('${priceId}').textContent='${hebeAuto}';
                     document.getElementById('${unitId}').textContent='원 / m²';
@@ -863,6 +866,7 @@
                     document.getElementById('${btnMeterId}').textContent='미터';
                     this.closest('.card').dataset.copytext='${copyTextAuto.replace(/'/g, "\\'")}';
                     this.closest('.card').dataset.dealercopytext='${dHebeAuto.replace(/'/g, "\\'")}';
+                    var dp=document.getElementById('${dealerDispId}');if(dp)dp.textContent='${dealerHebeAuto} 원/m²';
                   }
                 ">헤베</button>
                 <button class="copy-btn" id="${btnMeterId}" onclick="
@@ -874,6 +878,7 @@
                     document.getElementById('${btnSmallId}').textContent='헤베';
                     this.closest('.card').dataset.copytext='${copyText.replace(/'/g, "\\'")}';
                     this.closest('.card').dataset.dealercopytext='${dYard.replace(/'/g, "\\'")}';
+                    var dp=document.getElementById('${dealerDispId}');if(dp)dp.textContent='${dealerFormatted} 원/Y';
                   } else {
                     document.getElementById('${priceId}').textContent='${meterPrice}';
                     document.getElementById('${unitId}').textContent='원 / m';
@@ -881,6 +886,7 @@
                     document.getElementById('${btnSmallId}').textContent='헤베';
                     this.closest('.card').dataset.copytext='${copyTextMeter.replace(/'/g, "\\'")}';
                     this.closest('.card').dataset.dealercopytext='${dMeter.replace(/'/g, "\\'")}';
+                    var dp=document.getElementById('${dealerDispId}');if(dp)dp.textContent='${dealerMeter} 원/m';
                   }
                 ">미터</button>`;
 
@@ -899,6 +905,7 @@
                   document.getElementById('${btnMeterId}').textContent='미터';
                   this.closest('.card').dataset.copytext='${copyText.replace(/'/g, "\\'")}';
                   this.closest('.card').dataset.dealercopytext='${dYard.replace(/'/g, "\\'")}';
+                  var dp=document.getElementById('${dealerDispId}');if(dp)dp.textContent='${dealerFormatted} 원/Y';
                 ">복사</button>
                 <button class="copy-btn" id="${btnSmallId}" onclick="
                   var el=document.getElementById('${btnSmallId}');
@@ -910,6 +917,7 @@
                     document.getElementById('${btnMeterId}').textContent='미터';
                     this.closest('.card').dataset.copytext='${copyText.replace(/'/g, "\\'")}';
                     this.closest('.card').dataset.dealercopytext='${dYard.replace(/'/g, "\\'")}';
+                    var dp=document.getElementById('${dealerDispId}');if(dp)dp.textContent='${dealerFormatted} 원/Y';
                   } else {
                     document.getElementById('${priceId}').textContent='${hebeSmall}';
                     document.getElementById('${unitId}').textContent='원 / m²';
@@ -918,6 +926,7 @@
                     document.getElementById('${btnMeterId}').textContent='미터';
                     this.closest('.card').dataset.copytext='${copyTextSmall.replace(/'/g, "\\'")}';
                     this.closest('.card').dataset.dealercopytext='${dHebeSmall.replace(/'/g, "\\'")}';
+                    var dp=document.getElementById('${dealerDispId}');if(dp)dp.textContent='${dealerHebeSmall} 원/m²';
                   }
                 ">헤베(소폭)</button>
                 <button class="copy-btn" id="${btnLargeId}" onclick="
@@ -930,6 +939,7 @@
                     document.getElementById('${btnMeterId}').textContent='미터';
                     this.closest('.card').dataset.copytext='${copyText.replace(/'/g, "\\'")}';
                     this.closest('.card').dataset.dealercopytext='${dYard.replace(/'/g, "\\'")}';
+                    var dp=document.getElementById('${dealerDispId}');if(dp)dp.textContent='${dealerFormatted} 원/Y';
                   } else {
                     document.getElementById('${priceId}').textContent='${hebeLarge}';
                     document.getElementById('${unitId}').textContent='원 / m²';
@@ -938,6 +948,7 @@
                     document.getElementById('${btnMeterId}').textContent='미터';
                     this.closest('.card').dataset.copytext='${copyTextLarge.replace(/'/g, "\\'")}';
                     this.closest('.card').dataset.dealercopytext='${dHebeLarge.replace(/'/g, "\\'")}';
+                    var dp=document.getElementById('${dealerDispId}');if(dp)dp.textContent='${dealerHebeLarge} 원/m²';
                   }
                 ">헤베(대폭)</button>
                 <button class="copy-btn" id="${btnMeterId}" onclick="
@@ -950,6 +961,7 @@
                     document.getElementById('${btnLargeId}').textContent='헤베(대폭)';
                     this.closest('.card').dataset.copytext='${copyText.replace(/'/g, "\\'")}';
                     this.closest('.card').dataset.dealercopytext='${dYard.replace(/'/g, "\\'")}';
+                    var dp=document.getElementById('${dealerDispId}');if(dp)dp.textContent='${dealerFormatted} 원/Y';
                   } else {
                     document.getElementById('${priceId}').textContent='${meterPrice}';
                     document.getElementById('${unitId}').textContent='원 / m';
@@ -958,6 +970,7 @@
                     document.getElementById('${btnLargeId}').textContent='헤베(대폭)';
                     this.closest('.card').dataset.copytext='${copyTextMeter.replace(/'/g, "\\'")}';
                     this.closest('.card').dataset.dealercopytext='${dMeter.replace(/'/g, "\\'")}';
+                    var dp=document.getElementById('${dealerDispId}');if(dp)dp.textContent='${dealerMeter} 원/m';
                   }
                 ">미터</button>`;
 
@@ -975,7 +988,7 @@
                     <div style="font-size:10px;color:var(--ink4);letter-spacing:0.5px;margin-left:4px;">(부가세 별도)</div>
                   </div>
                   ${metaHtml ? `<div class="card-meta">${metaHtml}</div>` : ''}
-                  ${dealerPriceFormatted ? `<div class="dealer-price-row" style="display:${isAdmin ? 'block' : 'none'};margin-top:10px;padding-top:10px;border-top:1px dashed var(--border);"><div style="font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--ink4);margin-bottom:2px;">대리점가</div><div style="font-size:14px;color:var(--ink2);font-weight:400;">${dealerPriceFormatted} 원/Y</div></div>` : ''}
+                  ${dealerPriceFormatted ? `<div class="dealer-price-row" style="display:${isAdmin ? 'block' : 'none'};margin-top:10px;padding-top:10px;border-top:1px dashed var(--border);"><div style="font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--ink4);margin-bottom:2px;">대리점가</div><div id="${dealerDispId}" style="font-size:14px;color:var(--ink2);font-weight:400;">${dealerPriceFormatted} 원/Y</div></div>` : ''}
                 </div>
                 <div style="display:flex;flex-direction:column;gap:6px;flex-shrink:0;padding-top:2px;align-items:flex-end;">
                   ${hasWidth ? btnsWithWidth : btnsNoWidth}
