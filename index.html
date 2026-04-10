@@ -604,6 +604,9 @@
     <div class="summary-bar">
       <div class="summary-text" id="summaryText"></div>
       <div style="display:flex;gap:10px;align-items:center;">
+        <label id="dealerCopyWrap" style="display:none;align-items:center;gap:4px;cursor:pointer;font-size:11px;color:var(--ink2);letter-spacing:0.5px;user-select:none;">
+          <input type="checkbox" id="dealerCopyCheck" style="accent-color:var(--gold);cursor:pointer;">대리점가
+        </label>
         <button class="copy-btn" id="copyAllBtn" onclick="copyAll()">전체복사</button>
         <button class="copy-btn" id="copySelBtn" onclick="copySelected()">선택복사</button>
         <button class="clear-btn" onclick="clearResults()">초기화</button>
@@ -628,6 +631,8 @@
       document.querySelectorAll('.dealer-price-row').forEach(el => el.remove());
       document.getElementById('lockIcon').style.stroke = 'var(--ink3)';
       document.getElementById('adminTooltip').textContent = '관리자 로그인';
+      document.getElementById('dealerCopyWrap').style.display = 'none';
+      document.getElementById('dealerCopyCheck').checked = false;
     } else {
       document.getElementById('adminModal').style.display = 'flex';
       setTimeout(() => document.getElementById('adminPwInput').focus(), 100);
@@ -651,6 +656,7 @@
       closeAdminModal();
       document.getElementById('lockIcon').setAttribute('stroke', '#7ab87a');
       document.getElementById('adminTooltip').textContent = '관리자 모드 (클릭시 로그아웃)';
+      document.getElementById('dealerCopyWrap').style.display = 'flex';
       // 로그인 후 현재 검색어가 있으면 자동 재검색 (대리점가 포함 데이터 로드)
       const currentQuery = document.getElementById('searchInput').value.trim();
       if (currentQuery) {
@@ -807,6 +813,13 @@
               const brand = row[6] || '';
               const dealerPrice = row[7] || '';
               const dealerPriceNum = dealerPrice ? Number(dealerPrice.toString().replace(/,/g, '')) : 0;
+
+              // 대리점가 단위별 변환
+              const dealerFormatted = dealerPriceNum ? dealerPriceNum.toLocaleString() : '';
+              const dealerHebeAuto = (dealerPriceNum && widthM) ? (Math.ceil(dealerPriceNum / (widthM * 0.9144) / 1000) * 1000).toLocaleString() : '';
+              const dealerHebeSmall = dealerPriceNum ? (Math.ceil(dealerPriceNum / (1.4 * 0.9144) / 1000) * 1000).toLocaleString() : '';
+              const dealerHebeLarge = dealerPriceNum ? (Math.ceil(dealerPriceNum / (2.8 * 0.9144) / 1000) * 1000).toLocaleString() : '';
+              const dealerMeter = dealerPriceNum ? (Math.ceil(dealerPriceNum / 0.9144 / 1000) * 1000).toLocaleString() : '';
               const dealerPriceFormatted = dealerPriceNum ? dealerPriceNum.toLocaleString() : '';
 
               let metaHtml = '';
@@ -815,6 +828,12 @@
               if (weight) metaHtml += `<div class="meta-item"><div class="meta-label">무게</div><div class="meta-value">${weight} gsm</div></div>`;
 
               // 폭 있는 경우: 복사 + 헤베 + 미터 버튼
+              const dYard = `${copyName} ${dealerFormatted}/Y`;
+              const dHebeAuto = `${copyName} ${dealerHebeAuto}/m2`;
+              const dHebeSmall = `${copyName} ${dealerHebeSmall}/m2`;
+              const dHebeLarge = `${copyName} ${dealerHebeLarge}/m2`;
+              const dMeter = `${copyName} ${dealerMeter}/m`;
+
               const btnsWithWidth = `
                 <button class="copy-btn" id="${cardId}" onclick="
                   var isHebe = document.getElementById('${btnSmallId}').textContent==='취소';
@@ -826,6 +845,7 @@
                   document.getElementById('${btnSmallId}').textContent='헤베';
                   document.getElementById('${btnMeterId}').textContent='미터';
                   this.closest('.card').dataset.copytext='${copyText.replace(/'/g, "\\'")}';
+                  this.closest('.card').dataset.dealercopytext='${dYard.replace(/'/g, "\\'")}';
                 ">복사</button>
                 <button class="copy-btn" id="${btnSmallId}" onclick="
                   var el=document.getElementById('${btnSmallId}');
@@ -835,12 +855,14 @@
                     el.textContent='헤베';
                     document.getElementById('${btnMeterId}').textContent='미터';
                     this.closest('.card').dataset.copytext='${copyText.replace(/'/g, "\\'")}';
+                    this.closest('.card').dataset.dealercopytext='${dYard.replace(/'/g, "\\'")}';
                   } else {
                     document.getElementById('${priceId}').textContent='${hebeAuto}';
                     document.getElementById('${unitId}').textContent='원 / m²';
                     el.textContent='취소';
                     document.getElementById('${btnMeterId}').textContent='미터';
                     this.closest('.card').dataset.copytext='${copyTextAuto.replace(/'/g, "\\'")}';
+                    this.closest('.card').dataset.dealercopytext='${dHebeAuto.replace(/'/g, "\\'")}';
                   }
                 ">헤베</button>
                 <button class="copy-btn" id="${btnMeterId}" onclick="
@@ -851,12 +873,14 @@
                     el.textContent='미터';
                     document.getElementById('${btnSmallId}').textContent='헤베';
                     this.closest('.card').dataset.copytext='${copyText.replace(/'/g, "\\'")}';
+                    this.closest('.card').dataset.dealercopytext='${dYard.replace(/'/g, "\\'")}';
                   } else {
                     document.getElementById('${priceId}').textContent='${meterPrice}';
                     document.getElementById('${unitId}').textContent='원 / m';
                     el.textContent='취소';
                     document.getElementById('${btnSmallId}').textContent='헤베';
                     this.closest('.card').dataset.copytext='${copyTextMeter.replace(/'/g, "\\'")}';
+                    this.closest('.card').dataset.dealercopytext='${dMeter.replace(/'/g, "\\'")}';
                   }
                 ">미터</button>`;
 
@@ -874,6 +898,7 @@
                   document.getElementById('${btnLargeId}').textContent='헤베(대폭)';
                   document.getElementById('${btnMeterId}').textContent='미터';
                   this.closest('.card').dataset.copytext='${copyText.replace(/'/g, "\\'")}';
+                  this.closest('.card').dataset.dealercopytext='${dYard.replace(/'/g, "\\'")}';
                 ">복사</button>
                 <button class="copy-btn" id="${btnSmallId}" onclick="
                   var el=document.getElementById('${btnSmallId}');
@@ -884,6 +909,7 @@
                     document.getElementById('${btnLargeId}').textContent='헤베(대폭)';
                     document.getElementById('${btnMeterId}').textContent='미터';
                     this.closest('.card').dataset.copytext='${copyText.replace(/'/g, "\\'")}';
+                    this.closest('.card').dataset.dealercopytext='${dYard.replace(/'/g, "\\'")}';
                   } else {
                     document.getElementById('${priceId}').textContent='${hebeSmall}';
                     document.getElementById('${unitId}').textContent='원 / m²';
@@ -891,6 +917,7 @@
                     document.getElementById('${btnLargeId}').textContent='헤베(대폭)';
                     document.getElementById('${btnMeterId}').textContent='미터';
                     this.closest('.card').dataset.copytext='${copyTextSmall.replace(/'/g, "\\'")}';
+                    this.closest('.card').dataset.dealercopytext='${dHebeSmall.replace(/'/g, "\\'")}';
                   }
                 ">헤베(소폭)</button>
                 <button class="copy-btn" id="${btnLargeId}" onclick="
@@ -902,6 +929,7 @@
                     document.getElementById('${btnSmallId}').textContent='헤베(소폭)';
                     document.getElementById('${btnMeterId}').textContent='미터';
                     this.closest('.card').dataset.copytext='${copyText.replace(/'/g, "\\'")}';
+                    this.closest('.card').dataset.dealercopytext='${dYard.replace(/'/g, "\\'")}';
                   } else {
                     document.getElementById('${priceId}').textContent='${hebeLarge}';
                     document.getElementById('${unitId}').textContent='원 / m²';
@@ -909,6 +937,7 @@
                     document.getElementById('${btnSmallId}').textContent='헤베(소폭)';
                     document.getElementById('${btnMeterId}').textContent='미터';
                     this.closest('.card').dataset.copytext='${copyTextLarge.replace(/'/g, "\\'")}';
+                    this.closest('.card').dataset.dealercopytext='${dHebeLarge.replace(/'/g, "\\'")}';
                   }
                 ">헤베(대폭)</button>
                 <button class="copy-btn" id="${btnMeterId}" onclick="
@@ -920,6 +949,7 @@
                     document.getElementById('${btnSmallId}').textContent='헤베(소폭)';
                     document.getElementById('${btnLargeId}').textContent='헤베(대폭)';
                     this.closest('.card').dataset.copytext='${copyText.replace(/'/g, "\\'")}';
+                    this.closest('.card').dataset.dealercopytext='${dYard.replace(/'/g, "\\'")}';
                   } else {
                     document.getElementById('${priceId}').textContent='${meterPrice}';
                     document.getElementById('${unitId}').textContent='원 / m';
@@ -927,12 +957,13 @@
                     document.getElementById('${btnSmallId}').textContent='헤베(소폭)';
                     document.getElementById('${btnLargeId}').textContent='헤베(대폭)';
                     this.closest('.card').dataset.copytext='${copyTextMeter.replace(/'/g, "\\'")}';
+                    this.closest('.card').dataset.dealercopytext='${dMeter.replace(/'/g, "\\'")}';
                   }
                 ">미터</button>`;
 
               const checkId = 'chk_' + Math.random().toString(36).substr(2, 9);
 
-              return divider + `<div class="card" data-copyid="${cardId}" data-copytext="${copyText.replace(/"/g, '&quot;')}" style="display:flex;gap:14px;align-items:stretch;">
+              return divider + `<div class="card" data-copyid="${cardId}" data-copytext="${copyText.replace(/"/g, '&quot;')}" data-dealercopytext="${dealerFormatted ? (copyName + ' ' + dealerFormatted + '/Y').replace(/"/g, '&quot;') : ''}" style="display:flex;gap:14px;align-items:stretch;">
                 <div style="display:flex;flex-direction:column;align-items:center;padding-top:2px;">
                   <div id="${checkId}" onclick="this.classList.toggle('card-checked'); this.closest('.card').classList.toggle('selected');" style="width:16px;height:16px;border:1.5px solid var(--border2);border-radius:3px;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;"></div>
                 </div>
@@ -964,6 +995,19 @@
     }
   }
 
+  function getCardCopyLine(card) {
+    let line = card.dataset.copytext || '';
+    const dealerCheck = document.getElementById('dealerCopyCheck');
+    if (dealerCheck && dealerCheck.checked) {
+      const dealerText = card.dataset.dealercopytext;
+      if (dealerText) {
+        const dealerPrice = dealerText.split(' ').slice(-1)[0];
+        line = line + ' ' + dealerPrice;
+      }
+    }
+    return line;
+  }
+
   function copySelected() {
     const cards = document.querySelectorAll('.card.selected[data-copytext]');
     if (cards.length === 0) {
@@ -972,7 +1016,7 @@
       setTimeout(() => { btn.textContent = '선택복사'; }, 1500);
       return;
     }
-    const lines = Array.from(cards).map(c => c.dataset.copytext).filter(Boolean);
+    const lines = Array.from(cards).map(c => getCardCopyLine(c)).filter(Boolean);
     const text = lines.join('\n');
     navigator.clipboard.writeText(text).then(() => {
       const btn = document.getElementById('copySelBtn');
@@ -984,7 +1028,7 @@
 
   function copyAll() {
     const cards = document.querySelectorAll('.card[data-copytext]');
-    const lines = Array.from(cards).map(c => c.dataset.copytext).filter(Boolean);
+    const lines = Array.from(cards).map(c => getCardCopyLine(c)).filter(Boolean);
     const text = lines.join('\n');
     navigator.clipboard.writeText(text).then(() => {
       const btn = document.getElementById('copyAllBtn');
@@ -995,6 +1039,15 @@
   }
 
   function copyCard(id, text) {
+    const card = document.getElementById(id).closest('.card');
+    const dealerCheck = document.getElementById('dealerCopyCheck');
+    if (dealerCheck && dealerCheck.checked && card) {
+      const dealerText = card.dataset.dealercopytext;
+      if (dealerText) {
+        const dealerPrice = dealerText.split(' ').slice(-1)[0];
+        text = text + ' ' + dealerPrice;
+      }
+    }
     navigator.clipboard.writeText(text).then(() => {
       const btn = document.getElementById(id);
       btn.textContent = '완료';
