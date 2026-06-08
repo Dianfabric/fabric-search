@@ -21,7 +21,7 @@ export default async function handler(req, res) {
   const isAdmin = admin === process.env.ADMIN_PASSWORD;
 
   try {
-    const range = encodeURIComponent(`${sheetName}!A:Q`);
+    const range = encodeURIComponent(`${sheetName}!A:I`);
     const url = `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${range}?key=${apiKey}`;
     const response = await fetch(url);
     const data = await response.json();

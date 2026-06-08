@@ -883,7 +883,7 @@
 
               const brand = row[6] || '';
               const dealerPrice = row[7] || '';
-              const note = (row[16] || '').toString().trim();
+              const note = (row[8] || '').toString().trim();
               const dealerPriceNum = dealerPrice ? Number(dealerPrice.toString().replace(/,/g, '')) : 0;
 
               // 대리점가 단위별 변환
