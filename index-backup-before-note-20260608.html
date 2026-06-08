@@ -883,7 +883,6 @@
 
               const brand = row[6] || '';
               const dealerPrice = row[7] || '';
-              const note = (row[16] || '').toString().trim();
               const dealerPriceNum = dealerPrice ? Number(dealerPrice.toString().replace(/,/g, '')) : 0;
 
               // 대리점가 단위별 변환
@@ -1064,7 +1063,6 @@
                 <div style="display:flex;flex-direction:column;gap:6px;flex-shrink:0;padding-top:2px;align-items:flex-end;">
                   ${hasWidth ? btnsWithWidth : btnsNoWidth}
                   ${brand ? `<div style="font-size:10px;font-weight:700;color:var(--ink4);letter-spacing:0.05em;text-transform:uppercase;margin-top:4px;">${brand}</div>` : ''}
-                  ${note ? `<div style="font-size:10px;font-weight:700;color:var(--ink);background:var(--gold-light);border:1px solid var(--gold);padding:3px 7px;border-radius:2px;letter-spacing:0.04em;text-transform:uppercase;margin-top:4px;white-space:nowrap;">${note}</div>` : ''}
                 </div>
               </div>`;
             }).join('');

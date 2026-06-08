@@ -21,7 +21,7 @@ export default async function handler(req, res) {
   const isAdmin = admin === process.env.ADMIN_PASSWORD;
 
   try {
-    const range = encodeURIComponent(`${sheetName}!A:Q`);
+    const range = encodeURIComponent(`${sheetName}!A:H`);
     const url = `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${range}?key=${apiKey}`;
     const response = await fetch(url);
     const data = await response.json();
@@ -32,13 +32,8 @@ export default async function handler(req, res) {
 
     let rows = (data.values || []).slice(1);
 
-    // 비관리자: H열(대리점가)만 마스킹, 나머지(Q열 비고 포함)는 그대로 전달
     if (!isAdmin) {
-      rows = rows.map(row => {
-        const newRow = [...row];
-        if (newRow.length > 7) newRow[7] = '';
-        return newRow;
-      });
+      rows = rows.map(row => row.slice(0, 7));
     }
 
     return res.status(200).json({ rows });
