@@ -1,3 +1,5 @@
+const { toPriceSearchRow } = require('./price-row');
+
 async function fetchSupabaseRows() {
   const supabaseUrl = process.env.SUPABASE_FABRIC_URL || process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL;
   const supabaseKey = process.env.SUPABASE_FABRIC_SERVICE_ROLE_KEY || process.env.SUPABASE_SERVICE_KEY || process.env.SUPABASE_SERVICE_ROLE_KEY;
@@ -6,7 +8,10 @@ async function fetchSupabaseRows() {
     throw new Error('Supabase 설정 오류');
   }
 
-  const base = `${supabaseUrl.replace(/\/$/, '')}/rest/v1/fabric_price_search_rows?select=row_json&order=display_order.asc`;
+  // public.fabric_knowledge_master is the operational price source of truth.
+  // Typed prices take precedence over raw TMS mirror fields, which can be blank.
+  const fields = 'product_name,sell_price,dealer_price,material,width_mm,weight_gsm,search_alias,brand_code,moq_or_roll,raw';
+  const base = `${supabaseUrl.replace(/\/$/, '')}/rest/v1/fabric_knowledge_master?select=${fields}&is_active=eq.true&order=source_row.asc`;
   const headers = {
     apikey: supabaseKey,
     Authorization: `Bearer ${supabaseKey}`,
@@ -26,7 +31,7 @@ async function fetchSupabaseRows() {
     if (chunk.length < pageSize) break;
   }
 
-  return records.map((r) => (Array.isArray(r.row_json) ? r.row_json : []));
+  return records.map(toPriceSearchRow).filter((row) => row[0]);
 }
 
 export default async function handler(req, res) {
