@@ -764,7 +764,7 @@
   }
 
   async function fetchAllData() {
-    if (allData.length > 0) return allData;
+    // CFO 단가 수정 뒤 같은 탭에서 다시 검색해도 최신 Supabase 값을 읽는다.
     let res;
     if (isAdmin && adminPw) {
       res = await fetch('/api/search', {
